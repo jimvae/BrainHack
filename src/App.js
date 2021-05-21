@@ -1,16 +1,73 @@
 import React, { Component } from 'react';
 import './App.css';
+import Clarifai from 'clarifai';
 import Navigation from './components/Navigation/Navigation';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
+import FaceRecognition from './components/FaceRecognition/FaceRecognition';
+
 import 'tachyons';
 import Particles from 'react-particles-js';
+
+
+const app = new Clarifai.App({
+  apiKey: "3d89fc08bddf4b4aa89fb9819ac11a1a",
+ });
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      input: '',
+      image: ''
+    }
+  }
+
+  onInputChange = (event) => {
+    this.setState({input: event.target.value});
+  }
+
+  onButtonSubmit = () => {
+    this.setState( {imageUrl: this.state.input})
+    console.log("click");
+    app.models.predict(
+      Clarifai.FACE_DETECT_MODEL,
+      // Clarifai.COLOR_MODEL,
+      // sample image
+      this.state.input
+    ).then((response) => {
+      console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
+    }).catch((err) => {
+      console.log(err);
+    });
+  };    
+
+
+  render() {
+    return (
+      <div className="App">
+        <Particles className='particles' params={particlesOptions}/>
+        <Navigation />
+        <Logo />
+        <Rank />
+        <ImageLinkForm 
+          onInputChange={this.onInputChange} 
+          onButtonSubmit={this.onButtonSubmit}/>
+        <FaceRecognition imageUrl={this.state.imageUrl} />
+      </div>
+    )
+
+  }
+}
+
+
+
 
 const particlesOptions = {
   "particles": {
     "number": {
-      "value": 95,
+      "value": 30,
       "density": {
         "enable": true,
         "value_area": 800
@@ -116,22 +173,6 @@ const particlesOptions = {
     }
   },
   "retina_detect": true
-}
-
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Particles className='particles' params={particlesOptions}/>
-        <Navigation />
-        <Logo />
-        <Rank />
-        <ImageLinkForm />
-        {/* <FaceRecognition /> */}
-      </div>
-    )
-
-  }
 }
 
 export default App;
