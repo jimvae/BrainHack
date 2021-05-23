@@ -28,9 +28,36 @@ class App extends Component {
       image: '',
       box: {},
       route: 'signin',
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+          id: '',
+          name: '',
+          email: '',
+          password: '',
+          entries: 0,
+          joined: ''
+      }
     }
   }
+
+  // componentDidMount() {
+  //   // be wary if you use http or https
+  //   fetch('http://localhost:3000')
+  //     .then(response => response.json())
+  //     // .then(data => console.log(data));
+  //     .then(console.log);
+  // }
+
+  loadUser = (data) => {
+    this.setState( {user: {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined
+    }});
+  }
+
 
   onInputChange = (event) => {
     this.setState({input: event.target.value});
@@ -42,7 +69,7 @@ class App extends Component {
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
-    console.log(width, height, clarifaiFace);
+    // console.log(width, height, clarifaiFace);
     return {
       leftCol: clarifaiFace.left_col * width,
       topRow: clarifaiFace.top_row * height,
@@ -65,7 +92,23 @@ class App extends Component {
       // Clarifai.COLOR_MODEL,
       // imageURL
       this.state.input
-    ).then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+    ).then(response =>  {
+        if(response) {
+          fetch('http://localhost:3000/image',{
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
+          })
+            .then(response => response.json())
+            .then(count => {
+              // when you just want to assign a value but not replace the whole thing
+              this.setState(Object.assign(this.state.user, {entries: count}))
+            })
+        }
+      this.displayFaceBox(this.calculateFaceLocation(response))
+    })
     .catch(err => console.log(err)
     );
   };
@@ -90,7 +133,9 @@ class App extends Component {
           ?
             <div>
               <Logo />
-              <Rank />
+              <Rank 
+                name={this.state.user.name} 
+                entries={this.state.user.entries} />
               <ImageLinkForm 
                 onInputChange={this.onInputChange} 
                 onButtonSubmit={this.onButtonSubmit}/>
@@ -98,8 +143,8 @@ class App extends Component {
             </div>
             
           : (route === 'register'
-              ? <Register onRouteChange={this.onRouteChange}/>
-              : <Signin onRouteChange={this.onRouteChange}/> 
+              ? <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+              : <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/> 
           )          
         }
       </div>
