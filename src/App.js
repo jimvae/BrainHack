@@ -20,7 +20,7 @@ import Particles from 'react-particles-js';
 
  const initialState = {
     input: '',
-    image: '',
+    imageUrl: '',
     box: {},
     route: 'signin',
     isSignedIn: false,
@@ -28,7 +28,6 @@ import Particles from 'react-particles-js';
         id: '',
         name: '',
         email: '',
-        password: '',
         entries: 0,
         joined: ''
     }
@@ -38,7 +37,7 @@ class App extends Component {
     super();
     this.state = {
       input: '',
-      image: '',
+      imageUrl: '',
       box: {},
       route: 'signin',
       isSignedIn: false,
@@ -46,7 +45,6 @@ class App extends Component {
           id: '',
           name: '',
           email: '',
-          password: '',
           entries: 0,
           joined: ''
       }
