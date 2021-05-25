@@ -20,6 +20,21 @@ const app = new Clarifai.App({
   apiKey: "3d89fc08bddf4b4aa89fb9819ac11a1a",
  });
 
+ const initialState = {
+    input: '',
+    image: '',
+    box: {},
+    route: 'signin',
+    isSignedIn: false,
+    user: {
+        id: '',
+        name: '',
+        email: '',
+        password: '',
+        entries: 0,
+        joined: ''
+    }
+}
 class App extends Component {
   constructor() {
     super();
@@ -105,6 +120,7 @@ class App extends Component {
               // when you just want to assign a value but not replace the whole thing
               this.setState(Object.assign(this.state.user, {entries: count}))
             })
+            .catch(console.log)
         }
       this.displayFaceBox(this.calculateFaceLocation(response))
     })
@@ -114,7 +130,7 @@ class App extends Component {
   
   onRouteChange = (route) => {
     if (route === 'signout') {
-      this.setState( {isSignedIn: false} );
+      this.setState( initialState );
     } else if ( route === 'home') {
       this.setState( {isSignedIn: true} ); 
     }
