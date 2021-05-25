@@ -16,9 +16,7 @@ import Particles from 'react-particles-js';
 
 // How we will use the API with JS (don't worry I will show you the easy way to do this): https://github.com/Clarifai/clarifai-javascript#basic-use
 
-const app = new Clarifai.App({
-  apiKey: "3d89fc08bddf4b4aa89fb9819ac11a1a",
- });
+
 
  const initialState = {
     input: '',
@@ -100,13 +98,16 @@ class App extends Component {
 
   onButtonSubmit = () => {
     this.setState( {imageUrl: this.state.input})
-    console.log("click");
-    app.models.predict(
-      Clarifai.FACE_DETECT_MODEL,
-      // Clarifai.COLOR_MODEL,
-      // imageURL
-      this.state.input
-    ).then(response =>  {
+
+      fetch('http://localhost:3000/imageurl',{
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          input: this.state.input
+        })
+      })
+      .then(response => response.json())
+      .then(response =>  {
         if(response) {
           fetch('http://localhost:3000/image',{
             method: 'put',
@@ -173,7 +174,7 @@ class App extends Component {
 const particlesOptions = {
   "particles": {
     "number": {
-      "value": 50,
+      "value": 30,
       "density": {
         "enable": true,
         "value_area": 800
