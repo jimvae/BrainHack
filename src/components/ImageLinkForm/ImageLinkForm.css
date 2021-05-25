@@ -1,7 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap");
+
 .form {
     width: 700px;
-    background: linear-gradient(45deg, #dca 12%, transparent 0, transparent 88%, #dca 0),
+    /* background: linear-gradient(45deg, #dca 12%, transparent 0, transparent 88%, #dca 0),
     linear-gradient(135deg, transparent 37%, #a85 0, #a85 63%, transparent 0),
     linear-gradient(45deg, transparent 37%, #dca 0, #dca 63%, transparent 0) #753;
-    background-size: 25px 25px;
+    background-size: 25px 25px; */
+    background-color: #ffffff;
+    opacity: 0.8;
+    background: linear-gradient(135deg, #0488d155 25%, transparent 25%) -20px 0/ 40px 40px, linear-gradient(225deg, #0488d1 25%, transparent 25%) -20px 0/ 40px 40px, linear-gradient(315deg, #0488d155 25%, transparent 25%) 0px 0/ 40px 40px, linear-gradient(45deg, #0488d1 25%, #ffffff 25%) 0px 0/ 40px 40px;
 }
+
+p {
+    font-family: 'Poppins';
+    font-weight: 700;
+    color: black;
+}
+
