@@ -1,5 +1,7 @@
 ## BrainHack
-BrainHack is a web app that uses the Clarifai API to locate a face in a picture. Using a React.js front-end and Node.js back-end with Express.js as well as a PostgreSQL database to keep track of how many entries a user has made.
+BrainHack is a web application that uses the Clarifai API to detect a faces inside a picture using React.js, Node.js, Express.js and PostgreSQL hosted in Heroku.
+
+The goal of this project is to get an introduction to web development and full-stack technologies.
 
 <a href="https://my-brain-hack.herokuapp.com/">Check it out on Heroku</a>
 
